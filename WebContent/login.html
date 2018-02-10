@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Login to Fablix</title>
+<style type = "text/css">
+body {
+	background: url(img/006.jpg) no-repeat 0 0;
+	background-size:100%;
+}
+#login_error_message{
+	color:white;
+	opacity:0.5;
+    height: 30px;
+    position: absolute;
+    margin: auto;
+    top: -40px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 180px;
+    padding: 5px 10px 0 10px;
+}
+
+</style>
+</head>
+<body>
+	<h1 style="text-align:center;font-family:'Comic Sans MS', cursive, sans-serif;font-size:250%;color:#FF3030">Fablix</h1>
+	<h2 style="color:white;
+	opacity:0.8;
+    height: 400px;
+    position: absolute;
+    margin: auto;
+    top: 0px;
+    bottom: 0px;
+    left: 120px;
+    right: 0px;
+    width: 285px;
+    padding: 10px 70px 0 70px;
+    background: url(img/loginbg.png) no-repeat 0 0;text-indent:40px";>Sign in</h2>
+	<!-- Set the method to POST to avoid username/password showing on URL
+		 Disable the default action because our JS function will handle it. -->
+	<form id="login_form" method="post" action="#">
+	    <label><b></b></label>
+	    <input style="
+	    opacity:0.5;
+    height: 30px;
+    position: absolute;
+    margin: auto;
+    top: -210px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 180px;
+    padding: 5px 10px 0 10px;
+    "type="text" placeholder="Enter Username" name="username">
+		<br>
+	    <label><b></b></label>
+	    <input style="
+	    opacity:0.5;
+    height: 30px;
+    position: absolute;
+    margin: auto;
+    top: -130px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 180px;
+    padding: 5px 10px 0 10px;
+    "type="password" placeholder="Enter Password" name="password">
+		<br>
+	    <input style="color:white;
+	    opacity:0.8;
+    height: 30px;
+    position: absolute;
+    margin: auto;
+    top: 70px;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: 150px;
+    padding: 5px 10px 0 10px;
+    background: url(img/btnlogin.png);"type="submit" value="Login">
+	</form>
+	
+	<div id="login_error_message"></div>
+	
+	<!-- include jQuery-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!-- include our own JS file -->
+	<script src="./login.js"></script>
+	
+</body>
+</html>

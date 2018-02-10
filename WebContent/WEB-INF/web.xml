@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
-  <display-name>cs122b</display-name>
-  <servlet>
-    <servlet-name>cs122bServlet</servlet-name>
-    <servlet-class>project1.TomcatTest</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>cs122bServlet</servlet-name>
-    <url-pattern>/moviedb</url-pattern>
-  </servlet-mapping>
-  
-  
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" version="3.1">
+  <display-name>project2</display-name>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
@@ -19,4 +9,70 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <filter>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+  </filter-mapping>
+  
+  <servlet>
+    <servlet-name>HomeServlet</servlet-name>
+    <servlet-class>Home</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HomeServlet</servlet-name>
+    <url-pattern>/Home</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>MovieListServlet</servlet-name>
+    <servlet-class>MovieList</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MovieListServlet</servlet-name>
+    <url-pattern>/MovieList</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>MyCartServlet</servlet-name>
+    <servlet-class>MyCart</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>MyCartServlet</servlet-name>
+    <url-pattern>/MyCart</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SingleMovieServlet</servlet-name>
+    <servlet-class>SingleMovie</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SingleMovieServlet</servlet-name>
+    <url-pattern>/SingleMovie</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SingleStarServlet</servlet-name>
+    <servlet-class>SingleStar</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SingleStarServlet</servlet-name>
+    <url-pattern>/SingleStar</url-pattern>
+  </servlet-mapping>  
+  
+  <servlet>
+    <servlet-name>CheckOutServlet</servlet-name>
+    <servlet-class>CheckOut</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>CheckOutServlet</servlet-name>
+    <url-pattern>/CheckOut</url-pattern>
+  </servlet-mapping>    
+  
+  
 </web-app>
