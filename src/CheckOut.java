@@ -53,7 +53,7 @@ public class CheckOut extends HttpServlet {
             		"	<body>\r\n" + 
             		"		<form action=\"CheckOut\" method=\"post\">\r\n" + 
             		"			<center>\r\n" + 
-            		"				<input type =\"text\" name =\"id\" placeholder=\"card number\" required autofocus>\r\n" + 
+            		"				<input type =\"number\" name =\"id\" placeholder=\"card number\" required autofocus>\r\n" + 
             		"				<input type =\"text\" name =\"firstname\" placeholder=\"firstname\" required autofocus>\r\n" + 
             		"				<input type =\"text\" name =\"lastname\" placeholder=\"lastname\" required autofocus>\r\n" + 
             		"				<input type =\"text\" name =\"expiration\" placeholder=\"expiration\" required autofocus>\r\n" + 
@@ -168,12 +168,12 @@ public class CheckOut extends HttpServlet {
 	                ex = ex.getNextException();
 	            } // end while
 	            out.println("<HTML>" + "<HEAD><TITLE>" + "SQL Error" + "</TITLE></HEAD>\n<BODY>"
-	                    + "<P>SQL error in doGet: " + result + "</P>" + "<a href=\"CheckOut\">Back to CheckOut</a>\r\n" + "</BODY></HTML>");
+	                    + "<P>SQL error!</P>" + "<a href=\"CheckOut\">Back to CheckOut</a>\r\n" + "</BODY></HTML>");
 	            return;
 	            
 	        } // end catch SQLException
 	        catch (java.lang.Exception ex) {
-	            out.println("<HTML>" + "<HEAD><TITLE>" + "Search: Error" + "</TITLE></HEAD>\n<BODY>"
+	            out.println("<HTML>" + "<HEAD><TITLE>" + "CheckOut: Error" + "</TITLE></HEAD>\n<BODY>"
 	                    + "<P>SQL error in doGet: " + ex.getMessage() + "</P></BODY></HTML>");
 	            return;
 	        }

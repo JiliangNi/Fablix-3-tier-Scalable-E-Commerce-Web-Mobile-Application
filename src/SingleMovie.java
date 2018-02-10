@@ -83,12 +83,29 @@ public class SingleMovie extends HttpServlet {
                 String s_genres = rs.getString(5);
                 String s_stars = rs.getString(6);
                 String [] s_stars_ls = s_stars.split(",");
+                String [] s_genres_ls = s_genres.split(",");
+                
+                
+                
                 out.println("				<tr>\r\n" + 
                 		"					<td>" + s_id + "</td>\r\n" + 
                 		"					<td>" + "<a href=\"SingleMovie?movieid=" + s_id + "\">" + s_title + "</a>"+ "</td>\r\n" + 
                 		"					<td>" + s_year + "</td>\r\n" + 
-                		"					<td>" + s_director + "</td>\r\n" + 
-                		"					<td>" + s_genres + "</td>\r\n"); 
+                		"					<td>" + s_director + "</td>\r\n");
+                
+                
+                
+                
+                
+                
+                out.println("					<td>");
+                for(int i =0;i<s_genres_ls.length;i++)
+                {
+                	out.println("<a href=\"MovieList?genre=" + s_genres_ls[i] + "&lim=10\">"+s_genres_ls[i] + "</a>\r\n");
+                }      
+                
+                out.println("</td>\r\n");
+                
                 out.println("					<td>");
                 for(int i =0;i<s_stars_ls.length;i++)
                 {
@@ -131,9 +148,12 @@ public class SingleMovie extends HttpServlet {
                 System.out.println("SQL Exception:  " + ex.getMessage());
                 ex = ex.getNextException();
             } // end while
+            out.println("<HTML>" + "<HEAD><TITLE>" + "Error" + "</TITLE></HEAD>\n<BODY>"
+                    + "<P>Error!</P>" + "<a href=\"CheckOut\">Back to CheckOut</a>\r\n" + "</BODY></HTML>");
+            return;
         } // end catch SQLException
         catch (java.lang.Exception ex) {
-            out.println("<HTML>" + "<HEAD><TITLE>" + "Search: Error" + "</TITLE></HEAD>\n<BODY>"
+            out.println("<HTML>" + "<HEAD><TITLE>" + "SingleMovie: Error" + "</TITLE></HEAD>\n<BODY>"
                     + "<P>SQL error in doGet: " + ex.getMessage() + "</P></BODY></HTML>");
             return;
         }

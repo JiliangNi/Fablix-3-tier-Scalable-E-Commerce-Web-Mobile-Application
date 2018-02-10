@@ -53,7 +53,7 @@ public class SingleStar extends HttpServlet {
             out.println("<html>\r\n" + 
             		"	<head>\r\n" + 
             		"		<meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1252\">\r\n" + 
-            		"		<title>Single Movie</title>\r\n" + 
+            		"		<title>Single Star</title>\r\n" + 
             		"	<style type = \"text/css\"> \r\n" + 
             		"	.menu{position:relative;width:2000px;height:50px;margin:0 auto;padding:8px 0 0;margin-bottom:4px;z-index:99;}\r\n" + 
             		"	.menu .nav-menu>li{float:left;position:relative;margin-right:50}\r\n" + 
@@ -129,9 +129,12 @@ public class SingleStar extends HttpServlet {
                 System.out.println("SQL Exception:  " + ex.getMessage());
                 ex = ex.getNextException();
             } // end while
+            out.println("<HTML>" + "<HEAD><TITLE>" + "Error" + "</TITLE></HEAD>\n<BODY>"
+                    + "<P>Error!</P>" + "<a href=\"CheckOut\">Back to CheckOut</a>\r\n" + "</BODY></HTML>");
+            return;
         } // end catch SQLException
         catch (java.lang.Exception ex) {
-            out.println("<HTML>" + "<HEAD><TITLE>" + "Search: Error" + "</TITLE></HEAD>\n<BODY>"
+            out.println("<HTML>" + "<HEAD><TITLE>" + "SingleStar: Error" + "</TITLE></HEAD>\n<BODY>"
                     + "<P>SQL error in doGet: " + ex.getMessage() + "</P></BODY></HTML>");
             return;
         }

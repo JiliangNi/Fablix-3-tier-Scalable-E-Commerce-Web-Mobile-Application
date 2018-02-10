@@ -10,7 +10,8 @@
         import javax.servlet.http.HttpServlet;
         import javax.servlet.http.HttpServletRequest;
         import javax.servlet.http.HttpServletResponse;
-
+        import javax.servlet.http.HttpSession;
+        
         public class Home extends HttpServlet {
             public String getServletInfo() {
                 return "Display the Home page and the functionality��of searching and browsering";
@@ -20,7 +21,10 @@
                 String loginUser = "root";
                 String loginPasswd = "1356713njl*@^";
                 String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
+                
+                HttpSession mysession = request.getSession();
+                mysession.setAttribute("page_offset", "0");	
+                
                 response.setContentType("text/html"); // Response mime type
 
                 // Output stream to STDOUT
@@ -58,7 +62,7 @@
                 		"    width: 220px;\r\n" + 
                 		"    padding: 5px 10px 0 10px;\r\n" + 
                 		"    \">\r\n" + 
-                		"		<label>Year: <input type=\"text\" name=\"year\"></label>	\r\n" + 
+                		"		<label>Year: <input type=\"number\" name=\"year\"></label>	\r\n" + 
                 		"		<br>\r\n" + 
                 		"		</div>\r\n" + 
                 		"		\r\n" + 
@@ -143,15 +147,19 @@
                     		"		<form action = \"MyCart\">\r\n" + 
                     		"		<button name=\"mycart\" value=\"show\"> MyCart </button>\r\n"+
                     		"		</form></li>"+
+    
                     		"		</ul></div>");
                 } catch (SQLException ex) {
                     while (ex != null) {
                         System.out.println("SQL Exception:  " + ex.getMessage());
                         ex = ex.getNextException();
                     } // end while
+                    out.println("<HTML>" + "<HEAD><TITLE>" + "Error" + "</TITLE></HEAD>\n<BODY>"
+                            + "<P>Error!</P>" + "<a href=\"CheckOut\">Back to CheckOut</a>\r\n" + "</BODY></HTML>");
+                    return;
                 } // end catch SQLException
                 catch (java.lang.Exception ex) {
-                    out.println("<HTML>" + "<HEAD><TITLE>" + "Search: Error" + "</TITLE></HEAD>\n<BODY>"
+                    out.println("<HTML>" + "<HEAD><TITLE>" + "Home: Error" + "</TITLE></HEAD>\n<BODY>"
                             + "<P>SQL error in doGet: " + ex.getMessage() + "</P></BODY></HTML>");
                     return;
                 }

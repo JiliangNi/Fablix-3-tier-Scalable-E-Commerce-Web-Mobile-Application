@@ -90,7 +90,19 @@ public class MyCart extends HttpServlet {
     			{
     				for(Enumeration<String> e = cart_ls.keys();e.hasMoreElements();) {
     					String key = (String)e.nextElement();
-    	    			out.println("		<a href=\"SingleMovie?movieid=" + key + "\"> " + key + "</a>\r\n" + 
+    					
+    					query ="select m.title\r\n" + 
+    							"from movies m\r\n" + 
+    							"where m.id = '" + key + "';";
+    					rs = statement.executeQuery(query);
+    					String movie_title = "";
+    					while(rs.next()) {
+    						movie_title = rs.getString(1);
+    					}
+    					
+    					
+    					
+    	    			out.println("		<a href=\"SingleMovie?movieid=" + key + "\"> " + movie_title + "</a>\r\n" + 
     	    					"		<form action=\"MyCart\">\r\n" + 
     	    					"			<button name=\"reduce\" value=" + key + ">-</button>\r\n" + 
     	    					"			<a>" + cart_ls.get(key) + "</a>\r\n" + 
@@ -144,11 +156,22 @@ public class MyCart extends HttpServlet {
     			
 
     			
+    			
     			if(cart_ls != null && cart_ls.size()!=0)
     			{
     				for(Enumeration<String> e = cart_ls.keys();e.hasMoreElements();) {
     					String key = (String)e.nextElement();
-    	    			out.println("		<a href=\"SingleMovie?movieid=" + key + "\"> " + key + "</a>\r\n" + 
+    					
+    					query ="select m.title\r\n" + 
+    							"from movies m\r\n" + 
+    							"where m.id = '" + key + "';";
+    					rs = statement.executeQuery(query);
+    					String movie_title = "";
+    					while(rs.next()) {
+    						movie_title = rs.getString(1);
+    					}
+    					
+    	    			out.println("		<a href=\"SingleMovie?movieid=" + key + "\"> " + movie_title + "</a>\r\n" + 
     	    					"		<form action=\"MyCart\">\r\n" + 
     	    					"			<button name=\"reduce\" value=" + key + ">-</button>\r\n" + 
     	    					"			<a>" + cart_ls.get(key) + "</a>\r\n" + 
@@ -156,11 +179,6 @@ public class MyCart extends HttpServlet {
     	    					"		</form>");
     				}
     			}
-    			
-    			
-    			
-    			
-    			
     			
     			
     			
@@ -214,7 +232,17 @@ public class MyCart extends HttpServlet {
     			{
     				for(Enumeration<String> e = cart_ls.keys();e.hasMoreElements();) {
     					String key = (String)e.nextElement();
-    	    			out.println("		<a href=\"SingleMovie?movieid=" + key + "\"> " + key + "</a>\r\n" + 
+    					
+    					query ="select m.title\r\n" + 
+    							"from movies m\r\n" + 
+    							"where m.id = '" + key + "';";
+    					rs = statement.executeQuery(query);
+    					String movie_title = "";
+    					while(rs.next()) {
+    						movie_title = rs.getString(1);
+    					}
+    					
+    	    			out.println("		<a href=\"SingleMovie?movieid=" + key + "\"> " + movie_title + "</a>\r\n" + 
     	    					"		<form action=\"MyCart\">\r\n" + 
     	    					"			<button name=\"reduce\" value=" + key + ">-</button>\r\n" + 
     	    					"			<a>" + cart_ls.get(key) + "</a>\r\n" + 
@@ -222,8 +250,6 @@ public class MyCart extends HttpServlet {
     	    					"		</form>");
     				}
     			}
-    			
-    			
     			
     			
     			
@@ -255,11 +281,21 @@ public class MyCart extends HttpServlet {
     			mysession.setAttribute("cart_ls", cart_ls);
     			
     			
+
     			if(cart_ls != null && cart_ls.size()!=0)
     			{
     				for(Enumeration<String> e = cart_ls.keys();e.hasMoreElements();) {
     					String key = (String)e.nextElement();
-    	    			out.println("		<a href=\"SingleMovie?movieid=" + key + "\"> " + key + "</a>\r\n" + 
+    					
+    					query ="select m.title\r\n" + 
+    							"from movies m\r\n" + 
+    							"where m.id = '" + key + "';";
+    					rs = statement.executeQuery(query);
+    					String movie_title = "";
+    					while(rs.next()) {
+    						movie_title = rs.getString(1);
+    					}
+    	    			out.println("		<a href=\"SingleMovie?movieid=" + key + "\"> " + movie_title + "</a>\r\n" + 
     	    					"		<form action=\"MyCart\">\r\n" + 
     	    					"			<button name=\"reduce\" value=" + key + ">-</button>\r\n" + 
     	    					"			<a>" + cart_ls.get(key) + "</a>\r\n" + 
@@ -267,6 +303,7 @@ public class MyCart extends HttpServlet {
     	    					"		</form>");
     				}
     			}
+    			
     			
     	        out.println("		<form action=\"MyCart\">\r\n" + 
     	        		"			<button name= \"removeall\" value =\"true\">Remove All</button>\r\n" + 
@@ -286,9 +323,12 @@ public class MyCart extends HttpServlet {
                 System.out.println("SQL Exception:  " + ex.getMessage());
                 ex = ex.getNextException();
             } // end while
+            out.println("<HTML>" + "<HEAD><TITLE>" + "Error" + "</TITLE></HEAD>\n<BODY>"
+                    + "<P>Error!</P>" + "<a href=\"CheckOut\">Back to CheckOut</a>\r\n" + "</BODY></HTML>");
+            return;
         } // end catch SQLException
         catch (java.lang.Exception ex) {
-            out.println("<HTML>" + "<HEAD><TITLE>" + "Search: Error" + "</TITLE></HEAD>\n<BODY>"
+            out.println("<HTML>" + "<HEAD><TITLE>" + "MyCart: Error" + "</TITLE></HEAD>\n<BODY>"
                     + "<P>SQL error in doGet: " + ex.getMessage() + "</P></BODY></HTML>");
             return;
         }

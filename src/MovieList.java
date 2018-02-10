@@ -584,16 +584,6 @@ public class MovieList extends HttpServlet {
                 
                 
                 
-                
-                
-                
-                
-                
-                
-                
-                
-                
-                
                 out.println("			</tbody>\r\n" + 
                 		"		</table>\r\n");
                 
@@ -895,9 +885,12 @@ public class MovieList extends HttpServlet {
             while (ex != null) {
                 System.out.println("SQL Exception:  " + ex.getMessage());
             } // end while
+            out.println("<HTML>" + "<HEAD><TITLE>" + "Error" + "</TITLE></HEAD>\n<BODY>"
+                    + "<P>Error!</P>" + "<a href=\"CheckOut\">Back to CheckOut</a>\r\n" + "</BODY></HTML>");
+            return;
         } // end catch SQLException
         catch (java.lang.Exception ex) {
-            out.println("<HTML>" + "<HEAD><TITLE>" + "Search: Error" + "</TITLE></HEAD>\n<BODY>"
+            out.println("<HTML>" + "<HEAD><TITLE>" + "MovieList: Error" + "</TITLE></HEAD>\n<BODY>"
                     + "<P>SQL error in doGet: " + ex.getMessage() + "</P></BODY></HTML>");
             return;
         }
