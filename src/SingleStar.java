@@ -44,7 +44,7 @@ public class SingleStar extends HttpServlet {
             String query = "select s.id, s.name, s.birthYear, group_concat(distinct m.title,'&', m.id)\r\n" + 
             		"from stars s, stars_in_movies sm, movies m\r\n" + 
             		"where s.name = '" + starname + "' and s.id = sm.starId and sm.movieId = m.id\r\n" + 
-            		"group by s.name\r\n" + 
+            		"group by s.id\r\n" + 
             		";";
             
             // Perform the query
