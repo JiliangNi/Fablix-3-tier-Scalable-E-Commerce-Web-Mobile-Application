@@ -130,7 +130,7 @@ public class SingleStar extends HttpServlet {
                 ex = ex.getNextException();
             } // end while
             out.println("<HTML>" + "<HEAD><TITLE>" + "Error" + "</TITLE></HEAD>\n<BODY>"
-                    + "<P>Error!</P>" + "<a href=\"CheckOut\">Back to CheckOut</a>\r\n" + "</BODY></HTML>");
+                    + "<P>Error!</P>" + "<a href=\"Home\">Back to Home</a>\r\n" + "</BODY></HTML>");
             return;
         } // end catch SQLException
         catch (java.lang.Exception ex) {

@@ -168,7 +168,7 @@ public class CheckOut extends HttpServlet {
 	                ex = ex.getNextException();
 	            } // end while
 	            out.println("<HTML>" + "<HEAD><TITLE>" + "SQL Error" + "</TITLE></HEAD>\n<BODY>"
-	                    + "<P>SQL error!</P>" + "<a href=\"CheckOut\">Back to CheckOut</a>\r\n" + "</BODY></HTML>");
+	                    + "<P>SQL error!</P>" + "<a href=\"Home\">Back to Home</a>\r\n" + "</BODY></HTML>");
 	            return;
 	            
 	        } // end catch SQLException
