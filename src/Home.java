@@ -39,7 +39,7 @@
                 		"	.menu .nav-menu>li{float:left;position:relative;margin-right:50}\r\n" + 
                 		"	</style>\r\n"+
                 		"	</head>\r\n" + 
-                		"	<body style=\"background: url(../../project2/img/homebg.jpg) no-repeat 0 0;\r\n" + 
+                		"	<body style=\"background: url(../../project2/img/homebg.jpg) fixed 0 0;\r\n" + 
                 		"	background-size:100%;\">\r\n" + 
                 		"	<h1 style=\"text-align:center; left:0px; top:0px;font-family:'Comic Sans MS', cursive, sans-serif;font-size:250%;\"> <a href = \"/project2/Home\" style=\"color:OrangeRed;text-decoration:none;\">Fablix</a></h1>"+
                 		"		<form action = \"MovieList\">\r\n" + 

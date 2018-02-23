@@ -237,20 +237,20 @@ public class MovieList extends HttpServlet {
                 {
                 	out.println("<form>Results Per Page:"+
                     		"<select name=\"pageselect\" onchange=\"self.location.href=options[selectedIndex].value\" > \r\n" + 
-                    		"<OPTION </OPTION> \r\n" +
-                    		"<OPTION value="+"MovieList?" + "title2=" + title2 + "&lim=10" +">10</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title2=" + title2 + "&lim=25" +">25</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title2=" + title2 + "&lim=50" +">50</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title2=" + title2 + "&lim=100" +">100</OPTION> \r\n" + 
+                    		"<OPTION>" + "Please choose the number of results" + "</OPTION> \r\n" +
+                    		"<OPTION value=\""+"MovieList?" + "title2=" + title2 + "&lim=10" +"\">10</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title2=" + title2 + "&lim=25" +"\">25</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title2=" + title2 + "&lim=50" +"\">50</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title2=" + title2 + "&lim=100" +"\">100</OPTION> \r\n" + 
                     		"</select></form>");}
                 else {
                 	out.println("<form>Results Per Page:"+
                     		"<select name=\"pageselect\" onchange=\"self.location.href=options[selectedIndex].value\" > \r\n" + 
-                    		"<OPTION </OPTION> \r\n" +
-                    		"<OPTION value="+"MovieList?" + "title2=" + title2 + "&lim=10" +"&orderby=" + orderby + "&aord=" + aord + ">10</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title2=" + title2 + "&lim=25" +"&orderby=" + orderby + "&aord=" + aord + ">25</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title2=" + title2 + "&lim=50" +"&orderby=" + orderby + "&aord=" + aord + ">50</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title2=" + title2 + "&lim=100" +"&orderby=" + orderby + "&aord=" + aord + ">100</OPTION> \r\n" + 
+                    		"<OPTION>" + "Please choose the number of results" + "</OPTION> \r\n" +
+                    		"<OPTION value=\""+"MovieList?" + "title2=" + title2 + "&lim=10" +"&orderby=" + orderby + "&aord=" + aord + "\">10</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title2=" + title2 + "&lim=25" +"&orderby=" + orderby + "&aord=" + aord + "\">25</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title2=" + title2 + "&lim=50" +"&orderby=" + orderby + "&aord=" + aord + "\">50</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title2=" + title2 + "&lim=100" +"&orderby=" + orderby + "&aord=" + aord + "\">100</OPTION> \r\n" + 
                     		"</select></form>");
                 }
                 		
@@ -433,20 +433,20 @@ public class MovieList extends HttpServlet {
                 {
                 	out.println("<form>Results Per Page:"+
                     		"<select name=\"pageselect\" onchange=\"self.location.href=options[selectedIndex].value\" > \r\n" + 
-                    		"<OPTION </OPTION> \r\n" +
-                    		"<OPTION value="+"MovieList?" + "title3=" + title3 + "&lim=10" +">10</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title3=" + title3 + "&lim=25" +">25</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title3=" + title3 + "&lim=50" +">50</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title3=" + title3 + "&lim=100" +">100</OPTION> \r\n" + 
+                       		"<OPTION>" + "Please choose the number of results" + "</OPTION> \r\n" +
+                    		"<OPTION value=\""+"MovieList?" + "title3=" + title3 + "&lim=10" +"\">10</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title3=" + title3 + "&lim=25" +"\">25</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title3=" + title3 + "&lim=50" +"\">50</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title3=" + title3 + "&lim=100" +"\">100</OPTION> \r\n" + 
                     		"</select></form>");}
                 else {
                 	out.println("<form>Results Per Page:"+
                     		"<select name=\"pageselect\" onchange=\"self.location.href=options[selectedIndex].value\" > \r\n" + 
-                    		"<OPTION </OPTION> \r\n" +
-                    		"<OPTION value="+"MovieList?" + "title3=" + title3 + "&lim=10" +"&orderby=" + orderby + "&aord=" + aord + ">10</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title3=" + title3 + "&lim=25" +"&orderby=" + orderby + "&aord=" + aord + ">25</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title3=" + title3 + "&lim=50" +"&orderby=" + orderby + "&aord=" + aord + ">50</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title3=" + title3 + "&lim=100" +"&orderby=" + orderby + "&aord=" + aord + ">100</OPTION> \r\n" + 
+                       		"<OPTION>" + "Please choose the number of results" + "</OPTION> \r\n" +
+                    		"<OPTION value=\""+"MovieList?" + "title3=" + title3 + "&lim=10" +"&orderby=" + orderby + "&aord=" + aord + "\">10</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title3=" + title3 + "&lim=25" +"&orderby=" + orderby + "&aord=" + aord + "\">25</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title3=" + title3 + "&lim=50" +"&orderby=" + orderby + "&aord=" + aord + "\">50</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title3=" + title3 + "&lim=100" +"&orderby=" + orderby + "&aord=" + aord + "\">100</OPTION> \r\n" + 
                     		"</select></form>");
                     }
                 
@@ -620,20 +620,20 @@ public class MovieList extends HttpServlet {
                 {
                     out.println("<form>Results Per Page:"+
                     		"<select name=\"pageselect\" onchange=\"self.location.href=options[selectedIndex].value\" > \r\n" + 
-                    		"<OPTION </OPTION> \r\n" +
-                    		"<OPTION value="+"MovieList?" + "genre=" + genre + "&lim=10" +">10</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "genre=" + genre + "&lim=25" +">25</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "genre=" + genre + "&lim=50" +">50</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "genre=" + genre + "&lim=100" +">100</OPTION> \r\n" + 
+                       		"<OPTION>" + "Please choose the number of results" + "</OPTION> \r\n" +
+                    		"<OPTION value=\""+"MovieList?" + "genre=" + genre + "&lim=10" +"\">10</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "genre=" + genre + "&lim=25" +"\">25</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "genre=" + genre + "&lim=50" +"\">50</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "genre=" + genre + "&lim=100" +"\">100</OPTION> \r\n" + 
                     		"</select></form>");}
                 else {
                 	out.println("<form>Results Per Page:"+
                     		"<select name=\"pageselect\" onchange=\"self.location.href=options[selectedIndex].value\" > \r\n" + 
-                    		"<OPTION </OPTION> \r\n" +
-                    		"<OPTION value="+"MovieList?" + "genre=" + genre + "&lim=10" +"&orderby=" + orderby + "&aord=" + aord +">10</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "genre=" + genre + "&lim=25" +"&orderby=" + orderby + "&aord=" + aord +">25</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "genre=" + genre + "&lim=50" +"&orderby=" + orderby + "&aord=" + aord +">50</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "genre=" + genre + "&lim=100" +"&orderby=" + orderby + "&aord=" + aord +">100</OPTION> \r\n" + 
+                       		"<OPTION>" + "Please choose the number of results" + "</OPTION> \r\n" +
+                    		"<OPTION value=\""+"MovieList?" + "genre=" + genre + "&lim=10" +"&orderby=" + orderby + "&aord=" + aord +"\">10</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "genre=" + genre + "&lim=25" +"&orderby=" + orderby + "&aord=" + aord +"\">25</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "genre=" + genre + "&lim=50" +"&orderby=" + orderby + "&aord=" + aord +"\">50</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "genre=" + genre + "&lim=100" +"&orderby=" + orderby + "&aord=" + aord +"\">100</OPTION> \r\n" + 
                     		"</select></form>");
                 }
                 
@@ -833,20 +833,20 @@ public class MovieList extends HttpServlet {
                 {
                 	out.println("<form>Results Per Page:"+
                     		"<select name=\"pageselect\" onchange=\"self.location.href=options[selectedIndex].value\" > \r\n" + 
-                    		"<OPTION </OPTION> \r\n" +
-                    		"<OPTION value="+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=10" +">10</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=25" +">25</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=50" +">50</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=100" +">100</OPTION> \r\n" + 
+                       		"<OPTION>" + "Please choose the number of results" + "</OPTION> \r\n" +
+                    		"<OPTION value=\""+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=10" +"\">10</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=25" +"\">25</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=50" +"\">50</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=100" +"\">100</OPTION> \r\n" + 
                     		"</select></form>");}
                 else {
                 	out.println("<form>Results Per Page:"+
                     		"<select name=\"pageselect\" onchange=\"self.location.href=options[selectedIndex].value\" > \r\n" + 
-                    		"<OPTION </OPTION> \r\n" +
-                    		"<OPTION value="+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=10" + "&orderby=" + orderby + "&aord=" + aord + ">10</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=25" + "&orderby=" + orderby + "&aord=" + aord + ">25</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=50" + "&orderby=" + orderby + "&aord=" + aord + ">50</OPTION> \r\n" + 
-                    		"<OPTION value="+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=100" + "&orderby=" + orderby + "&aord=" + aord + ">100</OPTION> \r\n" + 
+                       		"<OPTION>" + "Please choose the number of results" + "</OPTION> \r\n" +
+                    		"<OPTION value=\""+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=10" + "&orderby=" + orderby + "&aord=" + aord + "\">10</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=25" + "&orderby=" + orderby + "&aord=" + aord + "\">25</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=50" + "&orderby=" + orderby + "&aord=" + aord + "\">50</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "title=" + title + "&year=" + year + "&director=" + director + "&starname=" + starname + "&lim=100" + "&orderby=" + orderby + "&aord=" + aord + "\">100</OPTION> \r\n" + 
                     		"</select></form>");}
                 
                 

@@ -9,11 +9,24 @@ import java.sql.Statement;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.JsonObject;
+
+
+
+import java.io.*;
+import java.net.*;
+import java.sql.*;
+import java.text.*;
+import java.util.*;
+import javax.servlet.*;
+//import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.*;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+
+
 
 /**
  * Servlet implementation class Login
@@ -39,6 +52,39 @@ public class Login extends HttpServlet {
 		
 		// this example only allows username/password to be test/test
 		// in the real project, you should talk to the database to verify username/password
+
+        HttpSession mysession = request.getSession();
+        String recaptcha = (String)mysession.getAttribute("recaptcha");		
+		
+		
+		PrintWriter out = response.getWriter();
+		
+		String gRecaptchaResponse = request.getParameter("g-recaptcha-response");
+		System.out.println("gRecaptchaResponse=" + gRecaptchaResponse);
+		// Verify CAPTCHA.
+		boolean valid = VerifyUtils.verify(gRecaptchaResponse);
+		
+		if (!valid) {
+		    //errorString = "Captcha invalid!";
+			System.out.println("Recaptcha Wrong!");
+			if(recaptcha == null) {
+				recaptcha = "no";
+				mysession.setAttribute("recaptcha", "no");				
+			}
+			else if(recaptcha.equals("yes")) {
+			}
+			else if(recaptcha.equals("no")) {
+			}
+		}
+		else {
+			recaptcha = "yes";
+			mysession.setAttribute("recaptcha", "yes");
+		}
+		
+		
+		System.out.println(recaptcha);
+		System.out.println(mysession.getAttribute("recaptcha"));
+		
 		
         String loginUser = "root";
         String loginPasswd = "1356713njl*@^";
@@ -46,7 +92,9 @@ public class Login extends HttpServlet {
 
         response.setContentType("text/html"); // Response mime type
 
+        
         boolean matched = false;
+		boolean ta_matched = false;
 		
         try {
             //Class.forName("org.gjt.mm.mysql.Driver");
@@ -66,9 +114,21 @@ public class Login extends HttpServlet {
                 	break;
                 }
             }
+            
+            query = "select password from employees where email = '" + username + "';";
+            rs = statement.executeQuery(query);
+            while(rs.next()) {
+            	String ta_password = rs.getString(1);
+            	if(ta_password.equals(password)){
+            		ta_matched = true;
+            		break;
+            	}
+            }
+            
             rs.close();
             statement.close();
             dbcon.close();
+            
         } catch (SQLException ex) {
             while (ex != null) {
                 System.out.println("SQL Exception:  " + ex.getMessage());
@@ -79,27 +139,58 @@ public class Login extends HttpServlet {
         	System.out.println("MovieDB: Error" + ex.getMessage());
             return;
         }
+        System.out.println(matched);
+        System.out.println(ta_matched);
         
-		if (matched) {
-			// login success:
-			
-			// set this user into the session
-			request.getSession().setAttribute("user", new User(username));
-			
-			JsonObject responseJsonObject = new JsonObject();
-			responseJsonObject.addProperty("status", "success");
-			responseJsonObject.addProperty("message", "success");
-			
-			response.getWriter().write(responseJsonObject.toString());
-		} else {
-			// login fail
+        
+        
+        if(recaptcha.equals("yes"))
+        {
+        	if(ta_matched)
+        	{
+				// login success:
+				
+				// set this user into the session
+				request.getSession().setAttribute("user", new User(username));
+				JsonObject responseJsonObject = new JsonObject();
+				responseJsonObject.addProperty("status", "success");
+				responseJsonObject.addProperty("message", "success");
+				responseJsonObject.addProperty("ta_matched", "yes");
+				response.getWriter().write(responseJsonObject.toString());
+        	}
+        	else {
+				if (matched) {
+						// login success:
+						// set this user into the session
+						request.getSession().setAttribute("user", new User(username));
+						JsonObject responseJsonObject = new JsonObject();
+						responseJsonObject.addProperty("status", "success");
+						responseJsonObject.addProperty("message", "success");
+						responseJsonObject.addProperty("ta_matched", "no");						
+						response.getWriter().write(responseJsonObject.toString());
+						
+				} else {
+					// login fail
+					request.getSession().setAttribute("user", new User(username));
+					JsonObject responseJsonObject = new JsonObject();
+					responseJsonObject.addProperty("status", "fail");
+					responseJsonObject.addProperty("message", "User or Password are Incorrect");
+					responseJsonObject.addProperty("ta_matched", "no");
+					response.getWriter().write(responseJsonObject.toString());
+				}
+        	}
+        }
+        else {
 			request.getSession().setAttribute("user", new User(username));
 			
 			JsonObject responseJsonObject = new JsonObject();
 			responseJsonObject.addProperty("status", "fail");
-			responseJsonObject.addProperty("message", "User or Password are Incorrect");
-			response.getWriter().write(responseJsonObject.toString());
-		}
+			responseJsonObject.addProperty("message", "Recaptcha Wrong!");
+			response.getWriter().write(responseJsonObject.toString());       	
+        	
+        }
+        
+        
 	}
 
 	/**

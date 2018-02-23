@@ -5,10 +5,16 @@ function handleLoginResult(resultDataString) {
 	console.log("handle login response");
 	console.log(resultDataJson);
 	console.log(resultDataJson["status"]);
-
+	console.log(resultDataJson["ta_matched"]);
+	
 	// if login success, redirect to index.html page
 	if (resultDataJson["status"] == "success") {
-		window.location.replace("/project2/Home");
+		if(resultDataJson["ta_matched"] == "no"){
+			window.location.replace("/project2/Home");
+		}
+		else if (resultDataJson["ta_matched"] == "yes"){
+			window.location.replace("/project2/_dashboard");
+		}
 	} else {
 		console.log("show error message");
 		console.log(resultDataJson["message"]);
