@@ -49,16 +49,15 @@ public class _dashboard extends HttpServlet {
         
         if(name == null && title == null)
         {
-            out.println("\r\n" + 
-            		"<!-- saved from url=(0041)http://localhost:8080/project2/_dashboard -->\r\n" + 
+            out.println(
             		"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1252\">\r\n" + 
             		"		\r\n" + 
             		"		<title>Dashboard</title>\r\n" + 
             		"	</head>\r\n" + 
             		"	<body style=\"background: url(../../project2/img/homebg.jpg) fixed 0 0;\r\n" + 
             		"	background-size:100%;\">\r\n" + 
-            		"	<h1 style=\"text-align:center; left:0px; top:0px;font-family:&#39;Comic Sans MS&#39;, cursive, sans-serif;font-size:250%;\"> <a href=\"http://localhost:8080/project2/Home\" style=\"color:OrangeRed;text-decoration:none;\">Fablix</a></h1>	\r\n" + 
-            		"		<form action=\"http://localhost:8080/project2/_dashboard\">\r\n" + 
+            		"	<h1 style=\"text-align:center; left:0px; top:0px;font-family:&#39;Comic Sans MS&#39;, cursive, sans-serif;font-size:250%;\"> <a href=\"Home\" style=\"color:OrangeRed;text-decoration:none;\">Fablix</a></h1>	\r\n" + 
+            		"		<form action=\"_dashboard\">\r\n" + 
             		"			<center>\r\n" + 
             		"				<a> Add star</a>\r\n" + 
             		"				<br>\r\n" + 
@@ -72,7 +71,7 @@ public class _dashboard extends HttpServlet {
             		"		</form>\r\n" + 
             		"		<br>\r\n" + 
             		"		<br>\r\n" + 
-            		"		<form action=\"http://localhost:8080/project2/_dashboard\">\r\n" + 
+            		"		<form action=\"_dashboard\">\r\n" + 
             		"			<center>\r\n" + 
             		"				<a> Add Movie</a>\r\n" + 
             		"				<br>\r\n" + 
@@ -191,16 +190,15 @@ public class _dashboard extends HttpServlet {
 	            int a = statement2.executeUpdate(insert_query);
 	            String result_words = "This Star '" + name + "' Added!";
 	            
-    	        out.println("\r\n" + 
-    	        		"<!-- saved from url=(0041)http://localhost:8080/project2/_dashboard -->\r\n" + 
+    	        out.println(
     	        		"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1252\">\r\n" + 
     	        		"		\r\n" + 
     	        		"		<title>Dashboard</title>\r\n" + 
     	        		"	</head>\r\n" + 
     	        		"	<body style=\"background: url(../../project2/img/homebg.jpg) fixed 0 0;\r\n" + 
     	        		"	background-size:100%;\">\r\n" + 
-    	        		"	<h1 style=\"text-align:center; left:0px; top:0px;font-family:&#39;Comic Sans MS&#39;, cursive, sans-serif;font-size:250%;\"> <a href=\"http://localhost:8080/project2/Home\" style=\"color:OrangeRed;text-decoration:none;\">Fablix</a></h1>	\r\n" + 
-    	        		"		<form action=\"http://localhost:8080/project2/_dashboard\">\r\n" + 
+    	        		"	<h1 style=\"text-align:center; left:0px; top:0px;font-family:&#39;Comic Sans MS&#39;, cursive, sans-serif;font-size:250%;\"> <a href=\"Home\" style=\"color:OrangeRed;text-decoration:none;\">Fablix</a></h1>	\r\n" + 
+    	        		"		<form action=\"_dashboard\">\r\n" + 
     	        		"			<center>\r\n" + 
     	        		"				<a> Add star</a>\r\n" + 
     	        		"				<br>\r\n" + 
@@ -216,7 +214,7 @@ public class _dashboard extends HttpServlet {
     	        		"		</form>\r\n" + 
     	        		"		<br>\r\n" + 
     	        		"		<br>\r\n" + 
-    	        		"		<form action=\"http://localhost:8080/project2/_dashboard\">\r\n" + 
+    	        		"		<form action=\"_dashboard\">\r\n" + 
     	        		"			<center>\r\n" + 
     	        		"				<a> Add Movie</a>\r\n" + 
     	        		"				<br>\r\n" + 
@@ -349,16 +347,15 @@ public class _dashboard extends HttpServlet {
 	            	}
 	            }
 	            
-	            out.println("\r\n" + 
-	            		"<!-- saved from url=(0041)http://localhost:8080/project2/_dashboard -->\r\n" + 
+	            out.println(
 	            		"<html><head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=windows-1252\">\r\n" + 
 	            		"		\r\n" + 
 	            		"		<title>Dashboard</title>\r\n" + 
 	            		"	</head>\r\n" + 
 	            		"	<body style=\"background: url(../../project2/img/homebg.jpg) fixed 0 0;\r\n" + 
 	            		"	background-size:100%;\">\r\n" + 
-	            		"	<h1 style=\"text-align:center; left:0px; top:0px;font-family:&#39;Comic Sans MS&#39;, cursive, sans-serif;font-size:250%;\"> <a href=\"http://localhost:8080/project2/Home\" style=\"color:OrangeRed;text-decoration:none;\">Fablix</a></h1>	\r\n" + 
-	            		"		<form action=\"http://localhost:8080/project2/_dashboard\">\r\n" + 
+	            		"	<h1 style=\"text-align:center; left:0px; top:0px;font-family:&#39;Comic Sans MS&#39;, cursive, sans-serif;font-size:250%;\"> <a href=\"Home\" style=\"color:OrangeRed;text-decoration:none;\">Fablix</a></h1>	\r\n" + 
+	            		"		<form action=\"_dashboard\">\r\n" + 
 	            		"			<center>\r\n" + 
 	            		"				<a> Add star</a>\r\n" + 
 	            		"				<br>\r\n" + 
@@ -372,7 +369,7 @@ public class _dashboard extends HttpServlet {
 	            		"		</form>\r\n" + 
 	            		"		<br>\r\n" + 
 	            		"		<br>\r\n" + 
-	            		"		<form action=\"http://localhost:8080/project2/_dashboard\">\r\n" + 
+	            		"		<form action=\"_dashboard\">\r\n" + 
 	            		"			<center>\r\n" + 
 	            		"				<a> Add Movie</a>\r\n" + 
 	            		"				<br>\r\n" + 
