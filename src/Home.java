@@ -33,7 +33,19 @@
                 out.println("<html>\r\n" + 
                 		"	<head>\r\n" + 
                 		"		<meta charset = \"UTF-8\">\r\n" + 
-                		"		<title> Home </title>\r\n" + 
+                		"		<title> Home </title>\r\n" +
+                		
+                		
+                		"    <!-- Using jQuery -->\r\n" + 
+                		"    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js\"></script>\r\n" + 
+                		"\r\n" + 
+                		"    <!-- include jquery autocomplete JS  -->\r\n" + 
+                		"    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/jquery.devbridge-autocomplete/1.4.7/jquery.autocomplete.min.js\"></script>\r\n" + 
+                		"<link rel=\"stylesheet\" href=\"style.css\">"+
+                		
+                		
+                		
+                		
                 		"	<style type = \"text/css\"> \r\n" + 
                 		"	.menu{position:relative;width:2000px;height:50px;margin:0 auto;padding:8px 0 0;margin-bottom:4px;z-index:99;}\r\n" + 
                 		"	.menu .nav-menu>li{float:left;position:relative;margin-right:50}\r\n" + 
@@ -41,8 +53,23 @@
                 		"	</head>\r\n" + 
                 		"	<body style=\"background: url(../../project2/img/homebg.jpg) fixed 0 0;\r\n" + 
                 		"	background-size:100%;\">\r\n" + 
-                		"	<h1 style=\"text-align:center; left:0px; top:0px;font-family:'Comic Sans MS', cursive, sans-serif;font-size:250%;\"> <a href = \"/project2/Home\" style=\"color:OrangeRed;text-decoration:none;\">Fablix</a></h1>"+
-                		"		<form action = \"MovieList\">\r\n" + 
+                		"	<h1 style=\"text-align:center; left:0px; top:0px;font-family:'Comic Sans MS', cursive, sans-serif;font-size:250%;\"> <a href = \"/project2/Home\" style=\"color:OrangeRed;text-decoration:none;\">Fablix</a></h1>");
+                
+                
+                out.println("<form action = \"MovieList\">\r\n" + 
+                		"<div id= \"pre_title\"><label>Normal Search: <input type= \"text\" name = \"pre_title\" id= \"autocomplete\" required autofocus></label></div>\r\n" +
+                		"<br>\r\n" + 
+                		"<div id = \"submit\"><input type = \"submit\" value = \"Normal Search\"></div>\r\n" + 
+                		"<input type = \"hidden\" name = \"lim\" value = \"10\">\r\n" + 
+                		"</form>" +
+                		"<script src=\"index.js\"></script>\r\n");
+                
+                
+                
+                
+                
+                
+                out.println("		<form action = \"MovieList\">\r\n" + 
                 		"		\r\n" + 
                 		"		<div id=\"title\" style=\"\r\n" + 
                 		"    height: 30px;\r\n" + 

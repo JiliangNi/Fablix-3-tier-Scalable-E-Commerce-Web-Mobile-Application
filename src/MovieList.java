@@ -31,7 +31,13 @@ public class MovieList extends HttpServlet {
 		String aord = request.getParameter("aord");
 		String lim = request.getParameter("lim");
 		String count = request.getParameter("count");
-		String direction = request.getParameter("direction");		
+		String direction = request.getParameter("direction");
+		String pre_title = request.getParameter("pre_title");
+		
+		System.out.println(pre_title);
+		
+		
+		
 		String query_pv = request.getQueryString();
 		
 		
@@ -79,7 +85,265 @@ public class MovieList extends HttpServlet {
             Statement statement = dbcon.createStatement();
             String query = "";
             ResultSet rs;
-            if(title2 != null)
+            
+            
+            
+            
+            
+            if(pre_title != null)
+            {
+                out.println("<html>\r\n" + 
+                		"	<head>\r\n" + 
+                		"		<meta http-equiv=\"Content-Type\" content=\"text/html; charset=window-1252\">\r\n" + 
+                		"		<title>MovieList</title>\r\n" + 
+                		"	<style type = \"text/css\"> \r\n" + 
+                		"	.menu{position:relative;width:2000px;height:50px;margin:0 auto;padding:8px 0 0;margin-bottom:4px;z-index:99;}\r\n" + 
+                		"	.menu .nav-menu>li{float:left;position:relative;margin-right:50}\r\n" + 
+                		"	.secmenu{position:relative;width:2000px;height:50px;margin:0 auto;padding:8px 0 0;margin-bottom:4px;z-index:99;}\r\n" + 
+                		"	.secmenu .nav-menu>li{float:left;position:relative;margin-right:50}\r\n" + 
+                		"	</style>\r\n"+
+                		"	</head>\r\n" + 
+                		"	<body style=\"background: url(../../project2/img/homebg.jpg);\r\n" + 
+                		"	background-size:100%;\">\r\n"+
+                		"	<body>\r\n"+
+                		"		<h1 style=\"text-align:center; left:0px; top:0px;font-family:'Comic Sans MS', cursive, sans-serif;font-size:250%;\"> <a href = \"/project2/Home\" style=\"color:OrangeRed;text-decoration:none;\">Fablix</a></h1>\r\n" + 
+                		"");
+                if(lim == null) {  
+	                out.println("       <div id=\"menu\" class=\"menu report-wrap-module report-scroll-module \">\r\n" + 
+	                		"		<ul class=\"nav-menu\">\r\n" + 
+	                		"		<li class=\"\">\r\n" + 
+	                		"		<a href=\"MovieList?" + "pre_title=" + pre_title + "&orderby=title&aord=asc" +"&lim=10\">"+
+	                		"		<div class=\"titleasd\">Title(Ascending)</div></a></li>\r\n" + 
+	                		"		<li class=\"\">\r\n" + 
+	                		"		<a href=\"MovieList?" + "pre_title=" + pre_title + "&orderby=title&aord=desc" + "&lim=10\">"+
+	                		"		<div class=\"titledsd\">Title(Descending)</div></a></li>\r\n" + 
+	                		"		<li class=\"\">\r\n" + 
+	                		"		<a href=\"MovieList?" + "pre_title=" + pre_title + "&orderby=year&aord=asc" + "&lim=10\">"+
+	                		"		<div class=\"yearasd\">Year(Ascending)</div></a></li>\r\n" + 
+	                		"		<li class=\"\">\r\n" + 
+	                		"		<a href=\"MovieList?" + "pre_title=" + pre_title + "&orderby=year&aord=desc" + "&lim=10\">"+
+	                		"		<div class=\"yeardsd\">Year(Descending)</div></a></li>\r\n" + 
+	                		"		</ul></div>");
+                }
+                else {
+	                out.println("       <div id=\"menu\" class=\"menu report-wrap-module report-scroll-module \">\r\n" + 
+	                		"		<ul class=\"nav-menu\">\r\n" + 
+	                		"		<li class=\"\">\r\n" + 
+	                		"		<a href=\"MovieList?" + "pre_title=" + pre_title + "&orderby=title&aord=asc" +"&lim=" + lim +  "\">"+
+	                		"		<div class=\"titleasd\">Title(Ascending)</div></a></li>\r\n" + 
+	                		"		<li class=\"\">\r\n" + 
+	                		"		<a href=\"MovieList?" + "pre_title=" + pre_title + "&orderby=title&aord=desc" + "&lim=" + lim +"\">"+
+	                		"		<div class=\"titledsd\">Title(Descending)</div></a></li>\r\n" + 
+	                		"		<li class=\"\">\r\n" + 
+	                		"		<a href=\"MovieList?" + "pre_title=" + pre_title + "&orderby=year&aord=asc" + "&lim=" + lim + "\">"+
+	                		"		<div class=\"yearasd\">Year(Ascending)</div></a></li>\r\n" + 
+	                		"		<li class=\"\">\r\n" + 
+	                		"		<a href=\"MovieList?" + "pre_title=" + pre_title + "&orderby=year&aord=desc" + "&lim=" + lim + "\">"+
+	                		"		<div class=\"yeardsd\">Year(Descending)</div></a></li>\r\n" + 
+	                		"		</ul></div>");
+                }
+                
+                out.println("		<br>" +
+                		"		<table border=\"\" width=\"100%\" style=\"background-color: #FFF5EE; opacity: 0.8; filter: alpha(opacity = 30);word-wrap:break-word\">\r\n" + 
+                		"			<tbody>");
+                
+                out.println("				<tr>\r\n" + 
+                		"					<td>id</td>\r\n" + 
+                		"					<td>title</td>\r\n" + 
+                		"					<td>year</td>\r\n" + 
+                		"					<td>director</td>\r\n" + 
+                		"					<td>genres</td>\r\n" + 
+                		"					<td>stars</td>\r\n" + 
+                		"				</tr>");
+                
+                
+                
+                
+                
+                
+                
+                String [] pre_ls = pre_title.trim().split("\\s+");
+                String pre_parameter = "+" + pre_ls[0] + "*";
+                
+                for(int i = 1; i<pre_ls.length;i++) {
+                	pre_parameter += " " + "+" + pre_ls[i] + "*";
+                }
+            	query += "select m.id, m.title, m.year, m.director, group_concat(distinct g.name), group_concat(distinct s.name)  \r\n" + 
+            			"from(\r\n" + 
+            			"select * \r\n" + 
+            			"from movies m\r\n" + 
+            			"where match(m.title) against ('" + pre_parameter + "' in boolean mode)) m, genres_in_movies gm, genres g, stars_in_movies sm, stars s \r\n" + 
+            			"where m.id = gm.movieID and gm.genreID = g.id and sm.movieID = m.id and sm.starID = s.id \r\n" + 
+            			"group by m.id\r\n";
+            	if(orderby !=null && aord !=null)
+            	{
+            		query += "order by m." + orderby + " " + aord + " \r\n";
+            	}
+            	String temp2 = Integer.parseInt(page_offset) * Integer.parseInt(lim)+"";
+            	query += "limit " + lim + " offset " + temp2 + ";";
+            	System.out.println(query);
+                rs = statement.executeQuery(query);
+                while (rs.next()) {
+                    String s_id = rs.getString(1);
+                    String s_title = rs.getString(2);
+                    String s_year = rs.getString(3);
+                    String s_director = rs.getString(4);
+                    String s_genres = rs.getString(5);
+                    String s_stars = rs.getString(6);
+                    String [] s_stars_ls = s_stars.split(",");
+                    out.println("				<tr>\r\n" + 
+                    		"					<td>" + s_id + "</td>\r\n" + 
+                    		"					<td>" + "<a href=\"SingleMovie?movieid=" + s_id + "\">" + s_title + "</a>"+ "</td>\r\n" + 
+                    		"					<td>" + s_year + "</td>\r\n" + 
+                    		"					<td>" + s_director + "</td>\r\n" + 
+                    		"					<td>" + s_genres + "</td>\r\n"); 
+                    out.println("					<td>");
+                    for(int i =0;i<s_stars_ls.length;i++)
+                    {
+                    	out.println("<a href=\"SingleStar?starname=" + s_stars_ls[i] + "\">" +s_stars_ls[i] + "</a>\r\n");
+                    }
+                    out.println("</td>\r\n");
+                    out.println("					<td>\r\n" + 
+                    		"						<form action = \"MyCart\">\r\n" + 
+                    		"							<button name=\"add\" value=\"" + s_id + "\"> Add </button>\r\n" + 
+                    		"						</form>\r\n" + 
+                    		"					</td>" +
+                    		"				</tr>");
+                    }
+                rs.close();
+                statement.close();
+                dbcon.close();
+                out.println("			</tbody>\r\n" + 
+                		"		</table>\r\n");
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                if(orderby == null)
+                {
+                	if(lim == null)
+                	{
+                		out.println("		<a href=\"MovieList?pre_title=" + pre_title + "&direction=prev\">Prev</a>\r\n");
+                		out.println("		<a href=\"MovieList?pre_title=" + pre_title + "&direction=next\">Next</a>\r\n");
+                	}
+                	else
+                	{
+                		out.println("		<a href=\"MovieList?pre_title=" + pre_title + "&lim=" + lim +"&direction=prev\">Prev</a>\r\n");
+                		out.println("		<a href=\"MovieList?pre_title=" + pre_title + "&lim=" + lim +"&direction=next\">Next</a>\r\n");
+                	}               	
+                }
+                else {
+                	if(lim == null)
+                	{
+                		out.println("		<a href=\"MovieList?pre_title=" + pre_title + "&orderby=" + orderby + "&aord=" + aord +"&direction=prev\">Prev</a>\r\n");
+                		out.println("		<a href=\"MovieList?pre_title=" + pre_title + "&orderby=" + orderby + "&aord=" + aord +"&direction=next\">Next</a>\r\n");
+                	}
+                	else
+                	{
+                		out.println("		<a href=\"MovieList?pre_title=" + pre_title + "&orderby=" + orderby + "&aord=" + aord + "&lim=" + lim +"&direction=prev\">Prev</a>\r\n");
+                		out.println("		<a href=\"MovieList?pre_title=" + pre_title + "&orderby=" + orderby + "&aord=" + aord + "&lim=" + lim +"&direction=next\">Next</a>\r\n");
+                	}
+                }
+                
+                
+                
+                		
+                
+                if(orderby == null)
+                {
+                	out.println("<form>Results Per Page:"+
+                    		"<select name=\"pageselect\" onchange=\"self.location.href=options[selectedIndex].value\" > \r\n" + 
+                    		"<OPTION>" + "Please choose the number of results" + "</OPTION> \r\n" +
+                    		"<OPTION value=\""+"MovieList?" + "pre_title=" + pre_title + "&lim=10" +"\">10</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "pre_title=" + pre_title + "&lim=25" +"\">25</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "pre_title=" + pre_title + "&lim=50" +"\">50</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "pre_title=" + pre_title + "&lim=100" +"\">100</OPTION> \r\n" + 
+                    		"</select></form>");}
+                else {
+                	out.println("<form>Results Per Page:"+
+                    		"<select name=\"pageselect\" onchange=\"self.location.href=options[selectedIndex].value\" > \r\n" + 
+                    		"<OPTION>" + "Please choose the number of results" + "</OPTION> \r\n" +
+                    		"<OPTION value=\""+"MovieList?" + "pre_title=" + pre_title + "&lim=10" +"&orderby=" + orderby + "&aord=" + aord + "\">10</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "pre_title=" + pre_title + "&lim=25" +"&orderby=" + orderby + "&aord=" + aord + "\">25</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "pre_title=" + pre_title + "&lim=50" +"&orderby=" + orderby + "&aord=" + aord + "\">50</OPTION> \r\n" + 
+                    		"<OPTION value=\""+"MovieList?" + "pre_title=" + pre_title + "&lim=100" +"&orderby=" + orderby + "&aord=" + aord + "\">100</OPTION> \r\n" + 
+                    		"</select></form>");
+                }
+                		
+                		
+                out.println(
+                		"		<br>\r\n" +
+                		"		<a href=\"Home\">Back to Home</a>" +
+                		"       <div id=\"secmenu\" class=\"menu report-wrap-module report-scroll-module \">\r\n" + 
+                		"		<ul class=\"nav-menu\">\r\n" +
+                		"		<li class=\"\">\r\n" + 
+                		"		<a = href=\"CheckOut\"><button>Checkout</button></a></li>\r\n" +
+                		"		<li class=\"\">\r\n" + 
+                		"		<form action = \"MyCart\">\r\n" + 
+                		"		<button name=\"mycart\" value=\"show\"> MyCart </button>\r\n"+
+                		"		</form></li>"+
+                		"		</ul></div>"+
+                		"		</form>");
+                
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            else if(title2 != null)
             {
                 out.println("<html>\r\n" + 
                 		"	<head>\r\n" + 

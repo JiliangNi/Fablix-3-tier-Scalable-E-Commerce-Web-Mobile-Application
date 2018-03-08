@@ -153,11 +153,11 @@ $$
 DELIMITER ; 
 
 
+alter table movies
+add fulltext index index_title(title);
 
-
-
-
-
+alter table stars
+add fulltext index index_name(name);
 
 
 
