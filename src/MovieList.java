@@ -168,6 +168,8 @@ public class MovieList extends HttpServlet {
                 for(int i = 1; i<pre_ls.length;i++) {
                 	pre_parameter += " " + "+" + pre_ls[i] + "*";
                 }
+                
+                /* no fuzzy search
             	query += "select m.id, m.title, m.year, m.director, group_concat(distinct g.name), group_concat(distinct s.name)  \r\n" + 
             			"from(\r\n" + 
             			"select * \r\n" + 
@@ -175,6 +177,16 @@ public class MovieList extends HttpServlet {
             			"where match(m.title) against ('" + pre_parameter + "' in boolean mode)) m, genres_in_movies gm, genres g, stars_in_movies sm, stars s \r\n" + 
             			"where m.id = gm.movieID and gm.genreID = g.id and sm.movieID = m.id and sm.starID = s.id \r\n" + 
             			"group by m.id\r\n";
+            	*/
+            	query += "select m.id, m.title, m.year, m.director, group_concat(distinct g.name), group_concat(distinct s.name)  \r\n" + 
+            			"from(\r\n" + 
+            			"select * \r\n" + 
+            			"from movies m\r\n" + 
+            			"where match(m.title) against ('" + pre_parameter + "' in boolean mode) or edth('" + pre_title + "', m.title, 2) = 1 ) m, genres_in_movies gm, genres g, stars_in_movies sm, stars s \r\n" + 
+            			"where m.id = gm.movieID and gm.genreID = g.id and sm.movieID = m.id and sm.starID = s.id \r\n" + 
+            			"group by m.id\r\n";                
+                
+            	
             	if(orderby !=null && aord !=null)
             	{
             		query += "order by m." + orderby + " " + aord + " \r\n";

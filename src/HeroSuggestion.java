@@ -89,7 +89,7 @@ public class HeroSuggestion extends HttpServlet {
             for(int i = 1; i<quert_ls.length;i++) {
             	query_parameter += " " + "+" + quert_ls[i] + "*";
             }
-            
+            /* no fuzzy search
             String movie_query = "";
         	movie_query += "select m.id, m.title\n" + 
         			"from movies m\n" + 
@@ -100,6 +100,20 @@ public class HeroSuggestion extends HttpServlet {
         			"from stars s\n" + 
         			"where match(s.name) against ('" + query_parameter + "' in boolean mode)\n" + 
         			"limit 5;";
+             */
+            
+            String movie_query = "";
+        	movie_query += "select m.id, m.title\n" + 
+        			"from movies m\n" + 
+        			"where match(m.title) against ('" + query_parameter + "' in boolean mode) or edth('" + query + "', m.title, 2) = 1\n" +
+        			"limit 5;";
+        	String star_query = "";
+        	star_query += "select s.id, s.name\n" + 
+        			"from stars s\n" + 
+        			"where match(s.name) against ('" + query_parameter + "' in boolean mode) or edth('" + query + "', s.name, 2) = 1\n" + 
+        			"limit 5;";
+            
+
         	
 
 			
