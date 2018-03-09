@@ -93,10 +93,10 @@ function handleSelectSuggestion(suggestion) {
 	// TODO: jump to the specific result page based on the selected suggestion
 	console.log("you select " + suggestion["value"])
 	if(suggestion["data"]["category"] === "movies"){
-		var url = "http://localhost:8080/project2/SingleMovie?movieid=" + suggestion["data"]["ID"]
+		var url = "/project2/SingleMovie?movieid=" + suggestion["data"]["ID"]
 	}
 	else if (suggestion["data"]["category"] === "stars"){
-		var url = "http://localhost:8080/project2/SingleStar?starname=" + suggestion["value"]
+		var url = "/project2/SingleStar?starname=" + suggestion["value"]
 	}
 	console.log(url)
 	window.location.href = url
