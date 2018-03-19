@@ -28,7 +28,7 @@ td {
     <td>50</td>
     <td>11.133087367407408</td>
     <td>10.958652587777779</td>
-    <td>--</td>
+    <td>Time needed for the case HTTP/1 thread is lowest, because it has fewest load of test.</td>
   </tr>
   <tr>
     <td>Case 2: HTTP/10 threads</td>
@@ -36,7 +36,7 @@ td {
     <td>123</td>
     <td>78.41272254974075</td>
     <td>78.27515257692593</td>
-    <td>--</td>
+    <td>Time needed for the case HTTP/10 threads will be bigger than case1, because it has 10 threads and the load of test becomes bigger.</td>
   </tr>
   <tr>
     <td>Case 3: HTTPS/10 threads</td>
@@ -44,7 +44,7 @@ td {
     <td>127</td>
     <td>77.38106487766667</td>
     <td>77.1836286022963</td>
-    <td>--</td>
+    <td>Time needed for the case HTTPS/10 threads will be a little bigger than case 2. I think because HTTPS request will need more time to propagate.</td>
   </tr>
   <tr>
     <td>Case 4: HTTP/10 threads/No prepared statements</td>
@@ -52,7 +52,7 @@ td {
     <td>123</td>
     <td>76.24874539381482</td>
     <td>76.11376756925926</td>
-    <td>--</td>
+    <td>Time needed for the case HTTP/10 threads/No prepared statements will be a little smaller, I think it is because we only send one query each time, so prepared statement does not help on time, ever makes it worse.</td>
   </tr>
   <tr>
     <td>Case 5: HTTP/10 threads/No connection pooling</td>
@@ -60,7 +60,7 @@ td {
     <td>152</td>
     <td>103.3054734187037</td>
     <td>103.11078100011112</td>
-    <td>--</td>
+    <td>Time needed for the case HTTP/10 threads/No pooling is the biggest one, it proves that connection pooling will save a lot of time. Not using it will make time delay bigger.</td>
   </tr>
 
 </table> 
@@ -81,7 +81,7 @@ td {
     <td>47</td>
     <td>11.422682347777778</td>
     <td>11.230464473333333</td>
-    <td>--</td>
+    <td>Time needed for the case HTTP/1 thread(scaled version) is close to case 1 without scaled version, because I add sticky session in load balancer. Then for 1 thread, it will always connect one instance. Therefore, scaled version does not help much on time.</td>
   </tr>
   <tr>
     <td>Case 2: HTTP/10 threads</td>
@@ -89,7 +89,7 @@ td {
     <td>100</td>
     <td>32.045420204886623</td>
     <td>31.8691715088448</td>
-    <td>--</td>
+    <td>Time needed for the case HTTP/10 threads is smaller than case 2 without scaled version, so it proves that scaled version will distribute load of queries and save time.</td>
   </tr>
   <tr>
     <td>Case 3: HTTP/10 threads/No prepared statements</td>
@@ -97,7 +97,7 @@ td {
     <td>126</td>
     <td>78.20198678088889</td>
     <td>78.05325502533333</td>
-    <td>--</td>
+    <td>Time needed for the case HTTP/10 threads/No prepared statements with scaled version is close to case 4 without scaled version and even bigger. It also shows that because we only send one query each time, so prepared statement does not help on time, ever makes it worse. And scaled version also does not help much.</td>
   </tr>
   <tr>
     <td>Case 4: HTTP/10 threads/No connection pooling</td>
@@ -105,7 +105,7 @@ td {
     <td>170</td>
     <td>99.29584949244444</td>
     <td>99.1090249812963</td>
-    <td>--</td>
+    <td>Time needed for the case HTTP/10 threads/No pooling is the biggest in all nine cases, it proves that connection pooling and scaled version will save most of time. And not using it will make time delay bigger.</td>
   </tr>
 
 </table> 
