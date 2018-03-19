@@ -4,6 +4,7 @@ import java.io.PrintWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,11 +13,18 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
+
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
 
 public class _dashboard extends HttpServlet {
     public String getServletInfo() {
@@ -39,10 +47,12 @@ public class _dashboard extends HttpServlet {
 		String star = request.getParameter("star");
 		String genre = request.getParameter("genre");	
 		
+		/*
         String loginUser = "root";
         String loginPasswd = "1356713njl*@^";
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
+		*/
+		
         response.setContentType("text/html"); // Response mime type
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
@@ -93,14 +103,44 @@ public class _dashboard extends HttpServlet {
             
             
         	try {
+	            // the following few lines are for connection pooling
+	            // Obtain our environment naming context
+
+	            Context initCtx = new InitialContext();
+	            if (initCtx == null)
+	                out.println("initCtx is NULL");
+
+	            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+	            if (envCtx == null)
+	                out.println("envCtx is NULL");
+
+	            // Look up our data source
+	            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB2");
+
+	            // the following commented lines are direct connections without pooling
 	            //Class.forName("org.gjt.mm.mysql.Driver");
-	            Class.forName("com.mysql.jdbc.Driver").newInstance();
-	            Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-	            // Declare our statement
-	            Statement statement = dbcon.createStatement();
-	            String query = "show tables from moviedb;";
+	            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+	            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+	            if (ds == null)
+	                out.println("ds is null.");
+
+	            Connection dbcon = ds.getConnection();
+	            if (dbcon == null)
+	                out.println("dbcon is null.");
+
 	            
-	            ResultSet rs = statement.executeQuery(query);
+	            // Declare our statement
+	            
+	            PreparedStatement statement = null;
+	            
+	            String query = "show tables from moviedb;";
+
+	            statement = dbcon.prepareStatement(query);
+	            
+	            // Perform the query
+	            ResultSet rs = statement.executeQuery();
+	            
 	            while (rs.next()) {
 	                String table = rs.getString(1);
 		            out.println("		<br>\r\n" + 
@@ -118,9 +158,19 @@ public class _dashboard extends HttpServlet {
 		            		"					<td>Default</td>\r\n" + 
 		            		"					<td>Extra</td>\r\n" + 
 		            		"				</tr>\r\n");
-		            Statement statement2 = dbcon.createStatement();
+		            
+		            
+		            // Declare our statement
+		            
+		            PreparedStatement statement2 = null;
+		            
 		            String query2 = "show columns from moviedb." + table + ";";
-		            ResultSet rs2 = statement2.executeQuery(query2);
+
+		            statement2 = dbcon.prepareStatement(query2);
+		            
+		            // Perform the query
+		            ResultSet rs2 = statement2.executeQuery();
+		            
 		            while(rs2.next()) {
 		            	out.println("				<tr>\r\n");
 		            	int i = 1;
@@ -164,16 +214,47 @@ public class _dashboard extends HttpServlet {
         }
         else if (name != null) {
         	try {
+	            
+	            // the following few lines are for connection pooling
+	            // Obtain our environment naming context
+
+	            Context initCtx = new InitialContext();
+	            if (initCtx == null)
+	                out.println("initCtx is NULL");
+
+	            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+	            if (envCtx == null)
+	                out.println("envCtx is NULL");
+
+	            // Look up our data source
+	            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB2");
+
+	            // the following commented lines are direct connections without pooling
 	            //Class.forName("org.gjt.mm.mysql.Driver");
-	            Class.forName("com.mysql.jdbc.Driver").newInstance();
-	            Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+	            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+	            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+	            if (ds == null)
+	                out.println("ds is null.");
+
+	            Connection dbcon = ds.getConnection();
+	            if (dbcon == null)
+	                out.println("dbcon is null.");
+
+	            
 	            // Declare our statement
-	            Statement statement = dbcon.createStatement();
+	            
+	            PreparedStatement statement = null;
 	            
 	            String s_max = "";
 	            String query = "select concat('nm', cast(substring_index(max(id), 'm',-1) as unsigned) + 1 ) as s_max\r\n" + 
 	            		"from stars;";
-	            ResultSet rs = statement.executeQuery(query);
+	            statement = dbcon.prepareStatement(query);
+	            
+	            // Perform the query
+	            ResultSet rs = statement.executeQuery();
+	            
+	           
 	            while (rs.next()) {
 	                s_max = rs.getString(1);
 	                break;
@@ -186,8 +267,17 @@ public class _dashboard extends HttpServlet {
 	            else {
 	            	insert_query = "INSERT INTO stars (id, name, birthYear) VALUES('" + s_max + "','" + name + "'," + Integer.parseInt(birthYear) + ");";
 	            }
-	            Statement statement2 = dbcon.createStatement();
-	            int a = statement2.executeUpdate(insert_query);
+	            
+	            // Declare our statement
+	            
+	            PreparedStatement statement2 = null;
+
+	            statement2 = dbcon.prepareStatement(insert_query);
+	            
+	            // Perform the query
+	            int a = statement2.executeUpdate();
+	            
+	            
 	            String result_words = "This Star '" + name + "' Added!";
 	            
     	        out.println(
@@ -234,12 +324,17 @@ public class _dashboard extends HttpServlet {
     	        		"		</form>	\r\n");
     	        
     	        
-    	        
-    	        
-                Statement statement3 = dbcon.createStatement();
-                String query3 = "show tables from moviedb;";
+                // Declare our statement
                 
-                ResultSet rs3 = statement3.executeQuery(query3);
+                PreparedStatement statement3 = null;
+                
+                String query3 = "show tables from moviedb;";
+
+                statement3 = dbcon.prepareStatement(query3);
+                
+                // Perform the query
+                ResultSet rs3 = statement3.executeQuery();
+                
                 while (rs3.next()) {
                     String table = rs3.getString(1);
                         out.println("		<br>\r\n" + 
@@ -257,9 +352,21 @@ public class _dashboard extends HttpServlet {
                                     "					<td>Default</td>\r\n" + 
                                     "					<td>Extra</td>\r\n" + 
                                     "				</tr>\r\n");
-                        Statement statement4 = dbcon.createStatement();
+                        
+                        // Declare our statement
+                        
+                        PreparedStatement statement4 = null;
+                        
                         String query4 = "show columns from moviedb." + table + ";";
-                        ResultSet rs4 = statement4.executeQuery(query4);
+
+                        statement4 = dbcon.prepareStatement(query4);
+                        
+                        // Perform the query
+                        ResultSet rs4 = statement4.executeQuery();
+                        
+                        
+                        
+                        
                         while(rs4.next()) {
                             out.println("				<tr>\r\n");
                             int i = 1;
@@ -311,9 +418,33 @@ public class _dashboard extends HttpServlet {
 	        	int staradd = -1;
 	        	int genreadd = -1;
 	        	String result_words = "";
+	        	
+	            // the following few lines are for connection pooling
+	            // Obtain our environment naming context
+
+	            Context initCtx = new InitialContext();
+	            if (initCtx == null)
+	                out.println("initCtx is NULL");
+
+	            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+	            if (envCtx == null)
+	                out.println("envCtx is NULL");
+
+	            // Look up our data source
+	            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB2");
+
+	            // the following commented lines are direct connections without pooling
 	            //Class.forName("org.gjt.mm.mysql.Driver");
-	            Class.forName("com.mysql.jdbc.Driver").newInstance();
-	            Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+	            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+	            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+	            if (ds == null)
+	                out.println("ds is null.");
+
+	            Connection dbcon = ds.getConnection();
+	            if (dbcon == null)
+	                out.println("dbcon is null.");
+
 	            // Declare our statement
 	            CallableStatement statement = dbcon.prepareCall("{call add_movie(?,?,?,?,?,?,?,?)}");
 	            
@@ -390,10 +521,19 @@ public class _dashboard extends HttpServlet {
 	            		"			</center>\r\n" + 
 	            		"		</form>	\r\n");
 	            
-                Statement statement3 = dbcon.createStatement();
+	            // Declare our statement
+	            
+	            PreparedStatement statement3 = null;
+	            
                 String query3 = "show tables from moviedb;";
-                
-                ResultSet rs3 = statement3.executeQuery(query3);
+
+	            statement3 = dbcon.prepareStatement(query3);
+	            
+	            // Perform the query
+	            ResultSet rs3 = statement3.executeQuery();
+	            
+	            
+	            
                 while (rs3.next()) {
                     String table = rs3.getString(1);
                         out.println("		<br>\r\n" + 
@@ -411,9 +551,20 @@ public class _dashboard extends HttpServlet {
                                     "					<td>Default</td>\r\n" + 
                                     "					<td>Extra</td>\r\n" + 
                                     "				</tr>\r\n");
-                        Statement statement4 = dbcon.createStatement();
+                        // Declare our statement
+                        
+                        PreparedStatement statement4 = null;
+                        
                         String query4 = "show columns from moviedb." + table + ";";
-                        ResultSet rs4 = statement4.executeQuery(query4);
+
+                        statement4 = dbcon.prepareStatement(query4);
+                        
+                        // Perform the query
+                        ResultSet rs4 = statement4.executeQuery();
+                        
+                        
+                        
+                        
                         while(rs4.next()) {
                             out.println("				<tr>\r\n");
                             int i = 1;

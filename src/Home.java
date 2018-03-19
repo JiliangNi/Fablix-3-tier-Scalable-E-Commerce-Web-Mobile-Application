@@ -2,7 +2,8 @@
         import java.io.PrintWriter;
         import java.sql.Connection;
         import java.sql.DriverManager;
-        import java.sql.ResultSet;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
         import java.sql.SQLException;
         import java.sql.Statement;
 
@@ -12,16 +13,22 @@
         import javax.servlet.http.HttpServletResponse;
         import javax.servlet.http.HttpSession;
         
+        import javax.naming.InitialContext;
+        import javax.naming.Context;
+        import javax.sql.DataSource;
+        
         public class Home extends HttpServlet {
             public String getServletInfo() {
                 return "Display the Home page and the functionality��of searching and browsering";
             }
             // Use http GET
             public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+            	/*
                 String loginUser = "root";
                 String loginPasswd = "1356713njl*@^";
                 String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-                
+                */
+            	
                 HttpSession mysession = request.getSession();
                 mysession.setAttribute("page_offset", "0");	
                 
@@ -60,7 +67,7 @@
                 		"<div id= \"pre_title\"><label>Normal Search: <input type= \"text\" name = \"pre_title\" id= \"autocomplete\" required autofocus></label></div>\r\n" +
                 		"<br>\r\n" + 
                 		"<div id = \"submit\"><input type = \"submit\" value = \"Normal Search\"></div>\r\n" + 
-                		"<input type = \"hidden\" name = \"lim\" value = \"10\">\r\n" + 
+                		"<input type = \"hidden\" name = \"lim\" value = \"50\">\r\n" + 
                 		"</form>" +
                 		"<script src=\"index.js\"></script>\r\n");
                 
@@ -143,17 +150,49 @@
                 out.println("		</tr></Table><br>\r\n"
                 		+ "<p style=\"color:blue;text-align:center; left:0px; top:0px;font-family:Tahoma, Geneva, sans-serif;font-size:150%;\">Search by genre of the title:</p><Table width=\"100%\" border=\"2\" style=\"background-color: #FFF5EE; opacity: 0.5; filter: alpha(opacity = 30);word-wrap:break-word\"><tr>\r\n");
                 try {
+                    
+                    // the following few lines are for connection pooling
+                    // Obtain our environment naming context
+
+                    Context initCtx = new InitialContext();
+                    if (initCtx == null)
+                        out.println("initCtx is NULL");
+
+                    Context envCtx = (Context) initCtx.lookup("java:comp/env");
+                    if (envCtx == null)
+                        out.println("envCtx is NULL");
+
+                    // Look up our data source
+                    DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+
+                    // the following commented lines are direct connections without pooling
                     //Class.forName("org.gjt.mm.mysql.Driver");
-                    Class.forName("com.mysql.jdbc.Driver").newInstance();
-                    Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+                    //Class.forName("com.mysql.jdbc.Driver").newInstance();
+                    //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+                    if (ds == null)
+                        out.println("ds is null.");
+
+                    Connection dbcon = ds.getConnection();
+                    if (dbcon == null)
+                        out.println("dbcon is null.");
+
+                    
                     // Declare our statement
-                    Statement statement = dbcon.createStatement();
+                    
+                    PreparedStatement statement = null;
+                    
                     String query = "select g.name\r\n" + 
                     		"from movies m, genres_in_movies gm, genres g\r\n" + 
                     		"where m.id = gm.movieID and gm.genreID = g.id\r\n" + 
                     		"group by g.name;";
+
+                    statement = dbcon.prepareStatement(query);
+                    
                     // Perform the query
-                    ResultSet rs = statement.executeQuery(query);
+                    ResultSet rs = statement.executeQuery();
+                    
+                    
                     // Iterate through each row of rs
                     int i=0;
                     while (rs.next()) {

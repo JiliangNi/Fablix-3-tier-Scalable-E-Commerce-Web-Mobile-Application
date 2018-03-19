@@ -6,6 +6,12 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
+
+
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 @WebServlet("/AndroidLogin")
 public class AndroidLogin extends HttpServlet {
     public String getServletInfo() {
@@ -16,10 +22,12 @@ public class AndroidLogin extends HttpServlet {
     		
     	
     		HttpSession session = request.getSession();
+    		
+    		/*
     		String loginUser = "root";
         String loginPasswd = "1356713njl*@^";
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
+    		 */
         response.setContentType("text/html"); // Response mime type
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
@@ -27,11 +35,38 @@ public class AndroidLogin extends HttpServlet {
         
 
         try {
+            
+            // the following few lines are for connection pooling
+            // Obtain our environment naming context
+
+            Context initCtx = new InitialContext();
+            if (initCtx == null)
+                out.println("initCtx is NULL");
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+
+            // the following commented lines are direct connections without pooling
             //Class.forName("org.gjt.mm.mysql.Driver");
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
+
             // Declare our statement
-            Statement statement = dbcon.createStatement();
+            
+            PreparedStatement statement = null;
+            
+            
             String email = request.getParameter("username");
 			String password = request.getParameter("password");
 			//System.out.println(email);
@@ -47,7 +82,11 @@ public class AndroidLogin extends HttpServlet {
             
             
             // Perform the query
-            ResultSet rs = statement.executeQuery(query);
+            statement = dbcon.prepareStatement(query);
+            
+            // Perform the query
+            ResultSet rs = statement.executeQuery();
+            
             Boolean main_page = false;
 			  
 			if (rs.next()){

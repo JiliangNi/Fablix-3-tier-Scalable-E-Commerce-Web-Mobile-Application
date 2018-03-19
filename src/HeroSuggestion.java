@@ -2,16 +2,20 @@
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -20,7 +24,9 @@ import com.google.gson.JsonObject;
 import java.io.*;
 
 
-
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
 
 // server endpoint URL
 @WebServlet("/hero-suggestion")
@@ -78,11 +84,12 @@ public class HeroSuggestion extends HttpServlet {
 			
 			
 			
-			
+			/*
             String loginUser = "root";
             String loginPasswd = "1356713njl*@^";
             String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-            
+            */
+			
             String [] quert_ls = query.trim().split("\\s+");
             String query_parameter = "+" + quert_ls[0] + "*";
             
@@ -117,13 +124,47 @@ public class HeroSuggestion extends HttpServlet {
         	
 
 			
+            
+            // the following few lines are for connection pooling
+            // Obtain our environment naming context
+
+            Context initCtx = new InitialContext();
+            if (initCtx == null) {}
+                //out.println("initCtx is NULL");
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null) {}
+                //out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+
+            // the following commented lines are direct connections without pooling
             //Class.forName("org.gjt.mm.mysql.Driver");
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+            if (ds == null) {}
+                //out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null) {}
+                //out.println("dbcon is null.");
+
+            
+            
+            
             // Declare our statement
-            Statement movie_statement = dbcon.createStatement();
+            
+            PreparedStatement movie_statement = null;
+
+            movie_statement = dbcon.prepareStatement(movie_query);
+            
             // Perform the query
-            ResultSet movie_rs = movie_statement.executeQuery(movie_query);
+            ResultSet movie_rs = movie_statement.executeQuery();
+            
+            
+            
             // Iterate through each row of rs
             
             while(movie_rs.next()) {
@@ -135,9 +176,18 @@ public class HeroSuggestion extends HttpServlet {
             movie_rs.close();
             movie_statement.close();
             
-            Statement star_statement = dbcon.createStatement();
+            
+            // Declare our statement
+            
+            PreparedStatement star_statement = null;
+
+            star_statement = dbcon.prepareStatement(star_query);
+            
             // Perform the query
-            ResultSet star_rs = star_statement.executeQuery(star_query);
+            ResultSet star_rs = star_statement.executeQuery();
+            
+            
+           
             // Iterate through each row of rs
             
             while(star_rs.next()) {

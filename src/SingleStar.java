@@ -2,14 +2,22 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
 
 public class SingleStar extends HttpServlet {
     public String getServletInfo() {
@@ -17,10 +25,12 @@ public class SingleStar extends HttpServlet {
     }
     // Use http GET
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    	/*
         String loginUser = "root";
         String loginPasswd = "1356713njl*@^";
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
+		*/
+    	
         String starname = request.getParameter("starname");
         response.setContentType("text/html"); // Response mime type
         // Output stream to STDOUT
@@ -34,21 +44,50 @@ public class SingleStar extends HttpServlet {
         }
 
         try {
-            //Class.forName("org.gjt.mm.mysql.Driver");
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
-            // Declare our statement
-            Statement statement = dbcon.createStatement();
             
+            // the following few lines are for connection pooling
+            // Obtain our environment naming context
+
+            Context initCtx = new InitialContext();
+            if (initCtx == null)
+                out.println("initCtx is NULL");
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+
+            // the following commented lines are direct connections without pooling
+            //Class.forName("org.gjt.mm.mysql.Driver");
+            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
+
+            // Declare our statement
+            
+            PreparedStatement statement = null;
             
             String query = "select s.id, s.name, s.birthYear, group_concat(distinct m.title,'&', m.id)\r\n" + 
             		"from stars s, stars_in_movies sm, movies m\r\n" + 
             		"where s.name = '" + starname + "' and s.id = sm.starId and sm.movieId = m.id\r\n" + 
             		"group by s.id\r\n" + 
             		";";
+
+            statement = dbcon.prepareStatement(query);
             
             // Perform the query
-            ResultSet rs = statement.executeQuery(query);
+            ResultSet rs = statement.executeQuery();
+            
+            
+            
             // Iterate through each row of rs
             out.println("<html>\r\n" + 
             		"	<head>\r\n" + 

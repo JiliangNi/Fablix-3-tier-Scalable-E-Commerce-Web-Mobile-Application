@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -10,11 +11,17 @@ import java.util.Dictionary;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
 
 public class CheckOut extends HttpServlet {
     public String getServletInfo() {
@@ -27,11 +34,11 @@ public class CheckOut extends HttpServlet {
 		String lastname = request.getParameter("lastname");
 		String expiration = request.getParameter("expiration");
 		
-		
+		/*
         String loginUser = "root";
         String loginPasswd = "1356713njl*@^";
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
-
+		 */
         
         HttpSession mysession = request.getSession();
         Dictionary<String, String> cart_ls = (Hashtable<String,String>)mysession.getAttribute("cart_ls");
@@ -65,17 +72,49 @@ public class CheckOut extends HttpServlet {
         }
         else {
 	        try {
+	            // the following few lines are for connection pooling
+	            // Obtain our environment naming context
+
+	            Context initCtx = new InitialContext();
+	            if (initCtx == null)
+	                out.println("initCtx is NULL");
+
+	            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+	            if (envCtx == null)
+	                out.println("envCtx is NULL");
+
+	            // Look up our data source
+	            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB2");
+
+	            // the following commented lines are direct connections without pooling
 	            //Class.forName("org.gjt.mm.mysql.Driver");
-	            Class.forName("com.mysql.jdbc.Driver").newInstance();
-	            Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+	            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+	            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+	            if (ds == null)
+	                out.println("ds is null.");
+
+	            Connection dbcon = ds.getConnection();
+	            if (dbcon == null)
+	                out.println("dbcon is null.");
+
+	            
 	            // Declare our statement
-	            Statement statement = dbcon.createStatement();
+	            
+	            PreparedStatement statement = null;
+	            
 	            String query = "select c.id as id, c.firstName as firstName, c.lastName as lastName, c.expiration as expiration, cu.id as customerid\r\n" + 
 	            		"from creditcards c, customers cu\r\n" + 
 	            		"where c.id = " + id + " and c.id = cu.ccID;\r\n" + 
 	            		"";
+
+	            statement = dbcon.prepareStatement(query);
+	            
 	            // Perform the query
-	            ResultSet rs = statement.executeQuery(query);
+	            ResultSet rs = statement.executeQuery();
+	            
+	            
+	            
 	            // Iterate through each row of rs
 	            boolean matched = false;
 	            String s_customerid = "";
@@ -129,7 +168,8 @@ public class CheckOut extends HttpServlet {
 	    						String insert_query = "INSERT INTO sales(customerId,movieId,saleDate) VALUES(" + s_customerid + ",'" + key + "',(select curdate()));";
 	    			            // Perform the query
 	    						System.out.println(insert_query);
-	    			            int a = statement.executeUpdate(insert_query);    	
+	    			            Statement statement2 = dbcon.createStatement();
+	    						int a = statement2.executeUpdate(insert_query); 
 	    					}
 	    				}
 	            	}

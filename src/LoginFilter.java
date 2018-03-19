@@ -12,6 +12,10 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 /**
  * Servlet Filter implementation class LoginFilter
  */

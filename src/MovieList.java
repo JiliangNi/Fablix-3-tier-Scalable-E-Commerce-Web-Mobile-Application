@@ -1,7 +1,10 @@
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,12 +17,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import javax.naming.InitialContext;
+import javax.naming.Context;
+import javax.sql.DataSource;
+
 public class MovieList extends HttpServlet {
     public String getServletInfo() {
         return "Display the Movie List";
     }
     // Use http GET
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    	long startTime = System.nanoTime();
+    	
+    	
 		String title = request.getParameter("title");
 		String year = request.getParameter("year");
 		String director = request.getParameter("director");
@@ -70,19 +80,53 @@ public class MovieList extends HttpServlet {
 		
 		System.out.println(title + " " + year+ " " + director+ " " + starname+ " " + title2+ " " + title3+ " " + genre + " " + query_pv);
 		
+		/*
         String loginUser = "root";
         String loginPasswd = "1356713njl*@^";
         String loginUrl = "jdbc:mysql://localhost:3306/moviedb";
+        */
+        
+        
         response.setContentType("text/html"); // Response mime type
         // Output stream to STDOUT
         PrintWriter out = response.getWriter();
             
         try {
+            
+            // the following few lines are for connection pooling
+            // Obtain our environment naming context
+
+        	long startTime2 = System.nanoTime();
+        	
+        	
+            Context initCtx = new InitialContext();
+            if (initCtx == null)
+                out.println("initCtx is NULL");
+
+            Context envCtx = (Context) initCtx.lookup("java:comp/env");
+            if (envCtx == null)
+                out.println("envCtx is NULL");
+
+            // Look up our data source
+            DataSource ds = (DataSource) envCtx.lookup("jdbc/TestDB");
+
+            // the following commented lines are direct connections without pooling
             //Class.forName("org.gjt.mm.mysql.Driver");
-            Class.forName("com.mysql.jdbc.Driver").newInstance();
-            Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+            //Class.forName("com.mysql.jdbc.Driver").newInstance();
+            //Connection dbcon = DriverManager.getConnection(loginUrl, loginUser, loginPasswd);
+
+            if (ds == null)
+                out.println("ds is null.");
+
+            Connection dbcon = ds.getConnection();
+            if (dbcon == null)
+                out.println("dbcon is null.");
+
+            
             // Declare our statement
-            Statement statement = dbcon.createStatement();
+            
+            PreparedStatement statement = null;
+            
             String query = "";
             ResultSet rs;
             
@@ -194,7 +238,12 @@ public class MovieList extends HttpServlet {
             	String temp2 = Integer.parseInt(page_offset) * Integer.parseInt(lim)+"";
             	query += "limit " + lim + " offset " + temp2 + ";";
             	System.out.println(query);
-                rs = statement.executeQuery(query);
+            	
+                statement = dbcon.prepareStatement(query);
+                
+                // Perform the query
+                rs = statement.executeQuery();
+                
                 while (rs.next()) {
                     String s_id = rs.getString(1);
                     String s_title = rs.getString(2);
@@ -224,7 +273,7 @@ public class MovieList extends HttpServlet {
                     }
                 rs.close();
                 statement.close();
-                dbcon.close();
+                
                 out.println("			</tbody>\r\n" + 
                 		"		</table>\r\n");
                 
@@ -437,9 +486,12 @@ public class MovieList extends HttpServlet {
             	query += "limit " + lim + " offset " + temp2 + ";";
             	
             	
+                statement = dbcon.prepareStatement(query);
+                
+                // Perform the query
+                rs = statement.executeQuery();
+                
             	
-            	
-                rs = statement.executeQuery(query);
                 while (rs.next()) {
                     String s_id = rs.getString(1);
                     String s_title = rs.getString(2);
@@ -471,7 +523,6 @@ public class MovieList extends HttpServlet {
                     
                 rs.close();
                 statement.close();
-                dbcon.close();
                 
                 
                 
@@ -628,8 +679,11 @@ public class MovieList extends HttpServlet {
             	query += "limit " + lim + " offset " + temp2 + ";";
             	            	
             	
-            	
-                rs = statement.executeQuery(query);
+                statement = dbcon.prepareStatement(query);
+                
+                // Perform the query
+                rs = statement.executeQuery();
+                
                 
                 while (rs.next()) {
                     String s_id = rs.getString(1);
@@ -660,11 +714,6 @@ public class MovieList extends HttpServlet {
                     }
                 rs.close();
                 statement.close();
-                dbcon.close();
-                
-                
-                
-                
                 
                 
                 
@@ -822,11 +871,13 @@ public class MovieList extends HttpServlet {
             	
             	
             	
+                statement = dbcon.prepareStatement(query);
+                
+                // Perform the query
+                rs = statement.executeQuery();
+                
             	
             	
-            	
-            	
-                rs = statement.executeQuery(query);
                 while (rs.next()) {
                     String s_id = rs.getString(1);
                     String s_title = rs.getString(2);
@@ -856,7 +907,6 @@ public class MovieList extends HttpServlet {
                     }
                 rs.close();
                 statement.close();
-                dbcon.close();
                 
                 
                 
@@ -1029,9 +1079,12 @@ public class MovieList extends HttpServlet {
             	query += "limit " + lim + " offset " + temp2 + ";";
             	
             	
+                statement = dbcon.prepareStatement(query);
+                
+                // Perform the query
+                rs = statement.executeQuery();
+                
             	
-            	
-                rs = statement.executeQuery(query);
                     
                 while (rs.next()) {
                     String s_id = rs.getString(1);
@@ -1062,8 +1115,6 @@ public class MovieList extends HttpServlet {
                     }
                 rs.close();
                 statement.close();
-                dbcon.close();
-                
                 
                 
                 
@@ -1152,10 +1203,33 @@ public class MovieList extends HttpServlet {
             
             
             
-            
 
+            
+            
             out.println("	</body>\r\n" + 
             		"</html>");
+            
+            dbcon.close();
+            long endTime2 = System.nanoTime();
+            long elapsedTime2 = endTime2 - startTime2;
+            
+            
+            
+            
+            File f = new File("TJ.txt");
+            PrintWriter writer = null;
+            if ( f.exists() && !f.isDirectory() ) {
+                writer = new PrintWriter(new FileOutputStream(new File("TJ.txt"), true));
+            }
+            else {
+                writer = new PrintWriter("TJ.txt");
+            }
+            writer.println("TJ "+elapsedTime2);
+            writer.close();
+            
+            
+            
+            
             
         } catch (SQLException ex) {
             while (ex != null) {
@@ -1171,5 +1245,20 @@ public class MovieList extends HttpServlet {
             return;
         }
         out.close();
+        
+        long endTime = System.nanoTime();
+        long elapsedTime = endTime - startTime;
+        
+        File f1 = new File("TS.txt");
+        PrintWriter writer1 = null;
+        if ( f1.exists() && !f1.isDirectory() ) {
+            writer1 = new PrintWriter(new FileOutputStream(new File("TS.txt"), true));
+        }
+        else {
+            writer1 = new PrintWriter("TS.txt");
+        }
+        writer1.println("TS "+elapsedTime);
+        writer1.close();
+        
     }
 }
